@@ -1,0 +1,152 @@
+###
+#   Creator      | Evonne McArthur, Capra Lab
+#   Created      | 2020-01-02
+#   Last Updated | 2020-01-03
+###
+
+### NOTES: ###
+Data for McArthur & Capra paper: Topologically associating domain (TAD) 
+boundaries stable across diverse cell types are evolutionarily 
+constrained and enriched for heritability"
+##############
+
+''' ./40kbBoundaries '''
+	''' ./40kbBoundaries/40kbBoundaries_byCellType/     '''
+	40 kb boundaries created for 37 cell types from the 3D genome 
+	browser. Most maps were already defined using the same 40 kb 
+	windows. However, 7 cell types (GM12878, HMEC, HUVEC, IMR90, K562, 
+	KBM7, NHEK) were defined using 25 kb windows. We converted each of 
+	these TAD start and stop positions to the corresponding 40 kb 
+	windows used for the other cell types. Therefore, all resulting 
+	maps are defined with respect to the same 40 kb windows across the 
+	genome for each cell type. These were the 40 kb windows surrounding 
+	(± 20 kb) TAD start and stop sites. For example, if a TAD was 
+	located at chr1: 2,000,000-3,000,000, we would define its TAD 
+	boundaries to be at chr1:1,980,000-2,020,000 (boundary around the 
+	start) and chr1:2,980,000-3,020,000 (boundary around the end). 
+	These 40 kb boundaries would be with respect to the same 40 kb 
+	windows across the genome for all cell types.
+
+	''' ./40kbBoundaries/40kbBoundaries_stabilityPercentile.bed       '''
+	For each 40 kb boundary in all 37 cell types, a count of how many 
+	cell types the boundary is observed in and its corresponding cell 
+	type "stability" percentile.
+	
+	
+''' ./200kbCollapsedBoundaries/ '''
+	''' ./200kbCollapsedBoundaries/200kbCollapsedBoundaries_byCellType/   '''
+	200 kb collapsed boundaries created for 37 cell types from the 3D 
+	genome browser -- used in the supplement to demonstrate result 
+	robustness to a more permissive boundary definition. we grouped all 
+	adjacent boundaries (from ./40kbBoundaries_byCellType) together 
+	regardless of their cell type. For example, if liver cells had a 
+	boundary at chr1:60,000-100,000 and muscle cells had a boundary at 
+	chr1:100,000-140,000, we would consider this to represent the same 
+	larger boundary of chr1:60,000-140,000. We discarded boundaries 
+	larger than 200 kb. Therefore, the collapsed boundaries are either 
+	40, 80, 120, 160, or 200 kb long.
+
+	''' ./200kbCollapsedBoundaries/200kbCollapsedBoundaries_stabilityPercentile.bed       '''
+	For each 200 kb collapsed boundary in all 37 cell types, a count of 
+	how many cell types the boundary is observed in and its 
+	corresponding cell type "stability" percentile.
+
+''' ./100kbBookendBoundaries/ '''
+	''' ./100kbBookendBoundaries/100kbBookendBoundaries_byCellType/   '''
+	100 kb bookend boundaries created for 37 cell types from the 3D 
+	genome browser -- used in Fig 4 & 5. Based on the heritability 
+	enrichment patterns observed “bookending” the TAD start and end 
+	rather than the exact TAD start/end site, we defined an additional 
+	“100 kb bookend” TAD boundary definition to quantify this effect. 
+	These are regions 100 kb upstream of the TAD start and 100 kb 
+	downstream of the TAD end. For example, if a TAD was at chr1: 
+	2,000,000-3,000,000, we would define its TAD boundaries to be at 
+	chr1:1,900,000-2,000,000 (boundary around the start) and 
+	chr1:3,000,000-3,100,000 (boundary around the end). 
+
+	''' ./100kbBookendBoundaries/100kbBookendBoundaries_stabilityPercentile.bed      '''
+	For each 100 kb bookend boundary in all 37 cell types, a count of 
+	how many cell types the boundary is observed in and its 
+	corresponding cell type "stability" percentile. Note that these 
+	windows may not necessarily be 100 kb. If tissue 1 has an 100 kb 
+	boundary at chr1:50kb-150kb and tissue 2 has a boundary at 
+	chr1:100kb-200kb, this file will show that 2 tissues have 
+	boundaries at chr1:100kb-150kb and 1 tissue has boundaries at each 
+	chr1:50kb-100kb and chr1:150kb-200kb (which are < 100 kb windows 
+	but represent a subset of a 100 kb boundary.
+
+''' ./backgroundGenome_minusBlacklist/       '''
+To compare the density of annotations (CTCF, PhastCons, genes) in 
+boundaries versus in genomic background, we defined matched sets of 
+randomly-shuffled equivalently-sized (40 kb) windows within the 
+background genome. . To define a genomic background control set, we 
+considered the region interrogated by Hi-C for each chromosome (using 
+the first start coordinate and last stop coordinate for each chromosome 
+observed in TAD maps). The Y chromosome was excluded from genomic 
+background because our TAD maps do not cover the Y chromosome. We also 
+excluded blacklisted regions and genomic gaps (centromeric/telomeric 
+repeats from UCSC table browser).
+
+	''' ./backgroundGenome_minusBlacklist/background_genome.bed  '''
+	A "background genome" from the range interrogated by Hi-C data from 
+	the 3D genome browser (the very first start site [usually 0] for 
+	TAD boundaries on each chromosome and the very last site)
+
+	''' ./backgroundGenome_minusBlacklist/background_genome_minus_blacklist.genome       '''
+	Background genome 
+	(./backgroundGenome_minusBlacklist/background_genome.bed) minus 
+	blacklist and gap regions 
+	(./backgroundGenome_minusBlacklist/blacklist_plus_gaps_hg19.bed)
+
+	''' ./backgroundGenome_minusBlacklist/blacklist_plus_gaps_hg19.bed   '''
+	Merge of two files:
+	1. Gap regions in hg19 from: 
+	http://genome.ucsc.edu/cgi-bin/hgTables --> hg19 --> All Tables -> 
+	table:gap
+	2. Human genome (hg19) black list regions from this paper:
+	https://www.nature.com/articles/s41598-019-45839-z
+	The ENCODE Blacklist: Identification of Problematic Regions of the 
+	Genome (Boyle et al. Scientific Reports 2019)
+
+	Downloaded from the Boyle Lab Github: 
+	https://github.com/Boyle-Lab/Blacklist/blob/master/lists/hg19-blackli
+	st.v2.bed.gz (was last updated Nov 13 2018) - Downloaded Sept 12 2019
+	
+''' ./h2_20partitions_aroundTAD '''
+We analyzed TADs plus 50% of their total length on each side and 
+subdivided into 20 equal-sized partitions. Hence, the center 10 bins 
+(6-15) are inside the TAD. Bins 1-5 are upstream of the TAD and 16-20 
+are downstream of the TAD. We ran S-LDSR on these 20 bins across TAD 
+maps from 37 cell types to calculate heritability enrichment over 41 
+traits. 
+	''' ./h2_20partitions_aroundTAD/PartitionsAroundTAD_[cell_type]/input/PartitionsAroundTAD_[cell_type]_[1-20].bed/ '''
+	The input data (the 20 partitions) for LDSC by cell type.
+	
+	
+	'''./h2_20partitions_aroundTAD/PartitionsAroundTAD_[cell_type]/output/[trait]/[trait]_PartitionsAroundTAD_[cell_type].[1-20].results '''
+	LDSC heritability output results for each partition (1-20) by each 
+	cell type for each trait. Each row in the results file is a 
+	separate annotation (of the baseline model). The bottom row 
+	"ANNOTL2_0" is the output for the partition of interest. The 
+	columns include: annotation name, proportion of snps in the 
+	partition, proportion of heritability within the partition, stderr 
+	of heritability, heritability enrichment, enrichment stderr, tau 
+	coefficient, coefficient stderr, coefficient z score.
+	
+''' ./h2_quartileStability/ '''
+	TAD boundaries were divided into quartiles of cell-type-stability 
+	to evaluate the relationship between cell type stability and 
+	heritability enrichment (or depletion). This analysis was done on 
+	100 kb bookend boundaries (Fig 4 & 5) and 40 kb boundaries 
+	(Supplement)
+	
+	''' ./h2_quartileStability/[40 or 100 kb boundaries]_byQuartileStability/input/quartile[1-4].bed '''
+	The input data for LDSC. The boundaries split by their quartile of 
+	cell type stability (1-4)
+	
+	''' ./h2_quartileStability/[40 or 100 kb boundaries]_byQuartileStability/output/[trait]/[trait ...].[1-4].results '''
+	LDSC heritability output results for each partition (1-4) by each 
+	cell type for each trait. Each row in the results file is a 
+	separate annotation (of the baseline model). The bottom row 
+	"ANNOTL2_0" is the output for the partition of interest.
+		
