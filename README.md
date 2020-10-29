@@ -1,4 +1,4 @@
-# README for data in paper
+# README
 
 Created: Oct 23, 2020 4:16 PM
 
@@ -22,7 +22,7 @@ To run, see the list/build of packages used in the environment (`env.yml`). You 
 
 **List of code table of contents:**
 
-![toc.png](toc.png)
+![toc.png](toc.png =100x)
 
 ### Publicly available data & software
 
