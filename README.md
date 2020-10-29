@@ -22,7 +22,7 @@ To run, see the list/build of packages used in the environment (`env.yml`). You 
 
 **List of code table of contents:**
 
-<img src="toc.png" width="100"/>
+<img src="toc.png" width="300"/>
 
 ### Publicly available data & software
 
